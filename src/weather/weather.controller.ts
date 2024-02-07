@@ -12,11 +12,9 @@ export class WeatherController {
       return { error: 'Debes proporcionar al menos una fecha.' };
     }
 
-    // Parse the dates
     const startMoment = startDate ? moment(startDate, 'YYYY/MM/DD HH:mm:ss') : moment();
     const endMoment = endDate ? moment(endDate, 'YYYY/MM/DD HH:mm:ss') : moment(startMoment);
 
-    // Get the weather data for the given date(s)
     const weatherData = await this.getWeatherData(startMoment, endMoment);
 
     return weatherData;
@@ -25,12 +23,10 @@ export class WeatherController {
   async getWeatherData(startMoment: moment.Moment, endMoment: moment.Moment) {
     const weatherData = [];
 
-    // Add weather details for the first day
     const firstDay = startMoment.format('YYYY/MM/DD');
     const firstDayWeather = this.generateWeatherDetail();
     weatherData.push({ date: firstDay, ...firstDayWeather });
 
-    // Add weather details for the last day, if applicable
     if (endMoment.diff(startMoment, 'days') > 0) {
       const lastDay = endMoment.format('YYYY/MM/DD');
       const lastDayWeather = this.generateWeatherDetail();
@@ -50,8 +46,7 @@ export class WeatherController {
       temperature: temperature + '°C',
       humidity: humidity + '%',
       windSpeed: windSpeed + 'km/h',
-      state: weatherState,
-      // Add more relevant weather data as needed
+      state: weatherState
     };
   }
 
@@ -60,7 +55,6 @@ export class WeatherController {
   }
 
   generateWeatherState(): string {
-    // Map random numbers to weather states
     const randomNumber = Math.random();
     if (randomNumber < 0.3) {
       return 'soleado';
